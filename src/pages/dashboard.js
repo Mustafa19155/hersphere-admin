@@ -1,30 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { db } from "../firebase";
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import VideoIcon from "../assets/images/video-icon.svg";
-import DocumentIcon from "../assets/images/document-icon.svg";
-import CatIcon from "../assets/images/cat-icon.svg";
 import { Link, useNavigate } from "react-router-dom";
-import LongestStreakChart from "../components/dashboard/LongestStreakChart";
-import MostQuizesChart from "../components/dashboard/MostQuizesChart";
-import TransparentButton from "../components/Buttons/TransparentButton";
+import JobIcon from "../assets/icons/job.svg";
+import PeopleIcon from "../assets/icons/people.svg";
+import StartupIcon from "../assets/icons/startup.svg";
+import WorkplaceIcon from "../assets/icons/workplace.svg";
+import RevenueIcon from "../assets/icons/revenue.svg";
+import PromotionPlatformsChart from "../components/dashboard/PromotionPlatformsChart";
+import UsersJoinedChart from "../components/dashboard/UsersJoinedChart";
+import HighestSuccessTable from "../components/dashboard/HighestSuccessTable";
+import { getUsersWithHighestSuccessScore } from "../api/users";
+import { getDashboardData } from "../api/main";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [users, setusers] = useState([]);
-  const [usersWithLongestStreak, setusersWithLongestStreak] = useState([]);
-  const [usersWithMostAttemptedQuizes, setusersWithMostAttemptedQuizes] =
-    useState([]);
-  const [terminologiesWithMostTerms, setterminologiesWithMostTerms] = useState(
-    []
-  );
-  const [quizes, setquizes] = useState([]);
-  const [terminologies, setterminologies] = useState([]);
   const [loading, setloading] = useState(false);
+  const [users, setusers] = useState([]);
+  const [data, setdata] = useState(null);
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
+  const handleGetAll = async () => {
+    try {
+      setloading(true);
+      const data = await getUsersWithHighestSuccessScore();
+      setdata(await getDashboardData());
+      setusers(data);
+      setloading(false);
+    } catch (err) {}
+  };
+
   useEffect(() => {
+    handleGetAll();
+
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
     };
@@ -40,7 +47,7 @@ const Dashboard = () => {
 
   return (
     <div>
-      {loading ? (
+      {loading || !data ? (
         <div role="status" className="w-full h-full mt-8 flex justify-center">
           <svg
             aria-hidden="true"
@@ -64,129 +71,42 @@ const Dashboard = () => {
         <>
           <div>
             <div className="flex justify-between flex-wrap">
-              <div className="rounded-lg bg-[#3b76ef] text-white w-full mt-6 lg:!w-[32%] flex items-center justify-between min-h-[170px]">
-                <Link
-                  to={"/terminologies"}
-                  className="p-3 xl:p-6  w-full h-full flex justify-between flex-wrap"
-                >
-                  <div className="flex flex-col gap-2 lg:w-full xl:w-[50%]">
-                    <p className="text-3xl font-bold">Terminologies</p>
-                    <p className="">
-                      Total {terminologies.length} terminologies
-                    </p>
-                  </div>
-                  <img
-                    className="min-w-[60px] min-h-[60px] w-[3vw] h-[3vw] mt-4"
-                    src={CatIcon}
-                  />
-                </Link>
+              <div className="bg-white shadow-lg w-[96%] md:w-[48%] lg:w-[24%] p-3 rounded-md flex flex-col gap-4 mb-4">
+                <img src={JobIcon} className="w-[45px] h-[45px]" />
+                <p className="font-bold text-2xl">{data.influencersCount}</p>
+                <p className="text-md text-gray-500">Total Influencers</p>
               </div>
-
-              <div className="rounded-lg bg-[#31CD63] text-white w-full mt-6 lg:!w-[32%] flex items-center justify-between min-h-[170px]">
-                <Link
-                  to={"/quizes"}
-                  className="p-3 xl:p-6  w-full h-full flex justify-between flex-wrap"
-                >
-                  <div className="flex flex-col gap-2 lg:w-full xl:w-[50%]">
-                    <p className="text-3xl font-bold">Quizzes</p>
-                    <p className="">Total {quizes.length} quizzes</p>
-                  </div>
-                  <img
-                    className="min-w-[60px] min-h-[60px] w-[3vw] h-[3vw] mt-4"
-                    src={DocumentIcon}
-                  />
-                </Link>
+              <div className="bg-white shadow-lg w-[96%] md:w-[48%] lg:w-[24%] p-3 rounded-md flex flex-col gap-4 mb-4">
+                <img src={StartupIcon} className="w-[45px] h-[45px]" />
+                <p className="font-bold text-2xl">{data.startupsCount}</p>
+                <p className="text-md text-gray-500">Total Startups</p>
               </div>
-
-              <div className="rounded-lg bg-orange text-white w-full mt-6 lg:!w-[32%] flex items-center justify-between min-h-[170px]">
-                <Link
-                  to={"/users"}
-                  className="p-3 xl:p-6  w-full h-full flex justify-between flex-wrap"
-                >
-                  <div className="flex flex-col gap-2 lg:w-full xl:w-[50%]">
-                    <p className="text-3xl font-bold">Users</p>
-                    <p className="">Total {users.length} users</p>
-                  </div>
-                  <img
-                    className="min-w-[60px] min-h-[60px] w-[3vw] h-[3vw] mt-4"
-                    src={VideoIcon}
-                  />
-                </Link>
+              <div className="bg-white shadow-lg w-[96%] md:w-[48%] lg:w-[24%] p-3 rounded-md flex flex-col gap-4 mb-4">
+                <img src={WorkplaceIcon} className="w-[45px] h-[45px]" />
+                <p className="font-bold text-2xl">{data.workplacesCount}</p>
+                <p className="text-md text-gray-500">Total Workplaces</p>
+              </div>
+              <div className="bg-white shadow-lg w-[96%] md:w-[48%] lg:w-[24%] p-3 rounded-md flex flex-col gap-4 mb-4">
+                <img src={RevenueIcon} className="w-[45px] h-[45px]" />
+                <p className="font-bold text-2xl">${data.revenue}</p>
+                <p className="text-md text-gray-500">Total Revenue</p>
               </div>
             </div>
-            {/* <div className="flex gap-20 my-12 max-w-[1600px] flex-wrap lg:!flex-nowrap items-stretch justify-stretch">
-            <div className="flex flex-col  w-full lg:!w-[40%] 2xl:!w-[47%]">
-              <p className="font-bold text-xl text-center mb-16">
-                Users with Most Attempted Quizzes
-              </p>
-
-              <MostQuizesChart
-                usersData={usersWithMostAttemptedQuizes}
-                screenWidth={screenWidth}
-              />
+            <div className="mt-8 flex items-stretch gap-10">
+              <div className="bg-white shadow-lg p-5 w-[60%] flex flex-col justify-between items-center">
+                <p className="text-lg font-bold">Users joined last 7 days</p>
+                <UsersJoinedChart />
+                {console.log(data)}
+              </div>
+              <div className="bg-white shadow-lg p-5 w-[60%] flex flex-col justify-between items-center">
+                <p className="text-lg font-bold">
+                  Most Used Promotion Platforms
+                </p>
+                <PromotionPlatformsChart data={data.posts} />
+              </div>
             </div>
-            <div className="flex flex-col  w-full lg:!w-[40%]">
-              <p className="font-bold text-xl text-center mb-16">
-                Users with Longest Streaks
-              </p>
-              <LongestStreakChart
-                usersData={usersWithLongestStreak}
-                screenWidth={screenWidth}
-              />
-            </div>
-          </div> */}
             <div>
-              <p className="font-bold text-xl mt-20 mb-8">
-                Terminologies with Most Terms
-              </p>
-              <div class="flex flex-col container">
-                <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                  <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-                    <div class="overflow-hidden">
-                      <table class="min-w-full text-left text-sm font-light">
-                        <thead class="border-b font-medium ">
-                          <tr>
-                            <th scope="col" class="px-6 py-4"></th>
-                            <th scope="col" class="px-6 py-4">
-                              Category
-                            </th>
-                            <th scope="col" class="px-6 py-4 text-center">
-                              Total Terms
-                            </th>
-                            <th scope="col" class="px-6 py-4 text-center">
-                              Actions
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {terminologiesWithMostTerms.map((term, index) => (
-                            <tr class="border-b ">
-                              <td>{term.terminologyId}</td>
-                              <td class="whitespace-nowrap px-6 py-4">
-                                {term.category}
-                              </td>
-                              <td class="whitespace-nowrap px-6 py-4 text-center">
-                                {term.terms.length}
-                              </td>
-                              <td className="px-6 py-4 flex flex-col items-center gap-2">
-                                <TransparentButton
-                                  text={"View Terms"}
-                                  className={"!w-32"}
-                                  clickHandler={() =>
-                                    navigate(
-                                      `/terminologies/${term.terminologyId}`
-                                    )
-                                  }
-                                />
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <HighestSuccessTable data={users} />
             </div>
           </div>
         </>

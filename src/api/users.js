@@ -35,3 +35,12 @@ export const unblockUser = async (id) => {
     console.error(error);
   }
 };
+
+export const getUsersWithHighestSuccessScore = async () => {
+  try {
+    const response = await axiosClient.get("/users/all/success-score");
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};

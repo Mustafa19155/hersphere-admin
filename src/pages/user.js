@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getUser } from "../api/users";
+import { blockUser, getUser, unblockUser } from "../api/users";
 import { useParams } from "react-router-dom";
 import FacebookIcon from "../assets/icons/facebook.svg";
 import InstagramIcon from "../assets/icons/instagram.svg";
@@ -12,121 +12,43 @@ import Promotions from "../components/User/Promotions";
 const User = () => {
   const params = useParams();
   const [loading, setloading] = useState(false);
-  const [user, setuser] = useState({
-    source: "google",
-    isVerified: true,
-    isBlocked: false,
-    skills: ["xc"],
-    _id: "6600947e2a67d172d8384d46",
-    username: "Mustafa Hassan",
-    email: "mustafahassan09999@gmail.com",
-    profileCompleted: true,
-    __v: 0,
-    businessDetails: {
-      description: "dfgg",
-      targetAudience: ["Category 2"],
-    },
-    profileImage:
-      "https://firebasestorage.googleapis.com/v0/b/hersphere-d67c8.appspot.com/o/profiles%2Frn_image_picker_lib_temp_6cce1b1e-1dd4-487f-80b5-29d3fffda067.jpg?alt=media&token=60130eff-51f2-4707-99cb-99df692bfd0e",
-    userType: "influencer",
-    youtubeChannel: {
-      id: "UC1ybuAtDotBrCpccfEy5cKg",
-      stats: {
-        viewCount: "3",
-        subscriberCount: "1",
-        hiddenSubscriberCount: false,
-        videoCount: "10",
-      },
-      token:
-        "ya29.a0Ad52N3-Eiyab__k1GfsHcUl3zsFPuidk_K3aI1Q_Yt7_CFETZm5niprUN2e1JHUYeAs2EsNt294P_yjOU5By0IGXJbmo9hVK3tzAVM8jW6rynWelmBMG5VqtlEkPcQg67Hqje2vZPcvFuDR6PdhLB0SyghtEYrZul0OOaCgYKAQQSARMSFQHGX2Mi_rRm27447Z_PTdfkd9_6xA0171",
-    },
-    jobs: [],
-    promotions: [
-      {
-        requirements: {
-          likes: 25,
-          comments: 25,
-          days: 2,
-        },
-        platforms: ["youtube"],
-        allowInfluencerToAddData: true,
-        status: "started",
-        _id: "660095fb8060ff4cb4b9507c",
-        description: "xff\n",
-        category: "category 1",
-        influencerID: {
-          source: "google",
-          isVerified: true,
+  const [user, setuser] = useState(null);
+  const [apiCalled, setapiCalled] = useState(false);
+
+  const handleBlock = () => {
+    setapiCalled(true);
+    blockUser(params.id)
+      .then((res) => {
+        setuser({
+          ...user,
+          isBlocked: true,
+        });
+        setapiCalled(false);
+      })
+      .catch((err) => {
+        setapiCalled(false);
+      });
+  };
+
+  const handleUnblock = () => {
+    setapiCalled(true);
+    unblockUser(params.id)
+      .then((res) => {
+        setuser({
+          ...user,
           isBlocked: false,
-          skills: ["xc"],
-          _id: "6600947e2a67d172d8384d46",
-          username: "Mustafa Hassan",
-          email: "mustafahassan09999@gmail.com",
-          profileCompleted: true,
-          __v: 0,
-          businessDetails: {
-            description: "dfgg",
-            targetAudience: ["Category 2"],
-          },
-          profileImage:
-            "https://firebasestorage.googleapis.com/v0/b/hersphere-d67c8.appspot.com/o/profiles%2Frn_image_picker_lib_temp_6cce1b1e-1dd4-487f-80b5-29d3fffda067.jpg?alt=media&token=60130eff-51f2-4707-99cb-99df692bfd0e",
-          userType: "influencer",
-          youtubeChannel: {
-            id: "UC1ybuAtDotBrCpccfEy5cKg",
-            stats: {
-              viewCount: "3",
-              subscriberCount: "1",
-              hiddenSubscriberCount: false,
-              videoCount: "10",
-            },
-            token:
-              "ya29.a0Ad52N3-Eiyab__k1GfsHcUl3zsFPuidk_K3aI1Q_Yt7_CFETZm5niprUN2e1JHUYeAs2EsNt294P_yjOU5By0IGXJbmo9hVK3tzAVM8jW6rynWelmBMG5VqtlEkPcQg67Hqje2vZPcvFuDR6PdhLB0SyghtEYrZul0OOaCgYKAQQSARMSFQHGX2Mi_rRm27447Z_PTdfkd9_6xA0171",
-          },
-        },
-        transactionID: {
-          _id: "660095fb8060ff4cb4b9507b",
-          userID: "65d1aee7e382c64da82d4768",
-          amount: 25,
-          type: "wallet",
-          reason: "Promotion Payment",
-          createdAt: "2024-03-24T21:07:07.798Z",
-          updatedAt: "2024-03-24T21:07:07.798Z",
-          __v: 0,
-        },
-        deadline: "2024-03-26T21:07:07.802Z",
-        userID: {
-          source: "",
-          isVerified: false,
-          isBlocked: false,
-          skills: [],
-          _id: "65d1aee7e382c64da82d4768",
-          email: "mustafa@gmail.com",
-          password:
-            "$2a$08$wHQWR.74T6IxhJz3NNfLre.3XxcB8TMT1K0OaWFIZtXyRNz01/Rua",
-          username: "mustafa@gmail.com",
-          __v: 0,
-          businessDetails: {
-            description: "gaahah",
-            category: "Category 2",
-            title: "gaah",
-          },
-          profileCompleted: true,
-          profileImage:
-            "https://firebasestorage.googleapis.com/v0/b/hersphere-d67c8.appspot.com/o/profiles%2Frn_image_picker_lib_temp_f28491b8-843d-4df9-ac4c-4b55f49c1b22.jpg?alt=media&token=62e21287-ea48-4b36-8148-4011abe53bad",
-          userType: "startup",
-        },
-        createdAt: "2024-03-24T21:07:07.805Z",
-        updatedAt: "2024-03-24T21:07:45.716Z",
-        __v: 0,
-      },
-    ],
-  });
+        });
+        setapiCalled(false);
+      })
+      .catch((err) => {
+        setapiCalled(false);
+      });
+  };
 
   const handleGetUser = () => {
     setloading(true);
     getUser(params.id)
       .then((res) => {
-        console.log(res);
         setuser(res);
         setloading(false);
       })
@@ -142,30 +64,114 @@ const User = () => {
   return (
     <div>
       {loading ? (
-        <p>Loading...</p>
+        <p></p>
       ) : user ? (
-        <div>
-          <p className="text-3xl font-bold">
-            {user.username} ({capitalizeFirst(user.userType)})
-          </p>
-          <div>
-            <p>{user.email}</p>
-            <div>
-              {user.facebookPage && <img src={FacebookIcon} />}
-              {user.instagramPage && <img src={InstagramIcon} />}
-              {user.youtubeChannel && <img src={YoutubeIcon} />}
-            </div>
-            <p>{user.isVerified ? "Verified" : "Not Verified"}</p>
-            <p>{user.actions}</p>
-          </div>
-          <div>
-            <Promotions promotions={user.promotions} />
-            {user.userType == "startup" && (
-              <Workplaces workplaces={user.workplaces} />
+        <>
+          <div className="flex justify-end mb-5">
+            {user.isBlocked ? (
+              <button
+                className="bg-green text-white px-5 py-2 rounded-lg"
+                disabled={apiCalled}
+                onClick={handleUnblock}
+              >
+                Unblock User
+              </button>
+            ) : (
+              <button
+                className="bg-red text-white px-5 py-2 rounded-lg"
+                disabled={apiCalled}
+                onClick={handleBlock}
+              >
+                Block User
+              </button>
             )}
-            {user.userType == "influencer" && <Jobs jobs={user.jobs} />}
           </div>
-        </div>
+          <div className="flex gap-[4%]">
+            <div className="bg-[rgba(255,255,255,0.5)] shadow-lg p-8 rounded-xl flex flex-col gap-6 justify-center items-center w-[32%]">
+              <img
+                src={user.profileImage}
+                className="w-[100px] h-[100px] rounded-full"
+              />
+              <p className="text-xl font-bold">{user.username}</p>
+              <p className="">{user.email}</p>
+              <p className="text-md text-gray-500">({user.userType})</p>
+            </div>
+            <div className="bg-[rgba(255,255,255,0.5)] shadow-lg p-8 rounded-xl flex flex-col gap-6 justify-center items-center w-[32%]">
+              {/* <p className="text-xl font-bold">Business Details</p> */}
+              {user.userType == "startup" ? (
+                <>
+                  <div className="flex flex-col items-center gap-2 shadow-md p-3 rounded-lg w-[250px]">
+                    <p className="font-bold text-lg">Business Title</p>
+                    <p>{user.businessDetails.title}</p>
+                  </div>
+                  <div className="flex flex-col items-center gap-2 shadow-md p-3 rounded-lg w-[250px]">
+                    <p className="font-bold text-lg">Business Category</p>
+                    <p>{user.businessDetails.category}</p>
+                  </div>
+                  <div className="flex flex-col items-center gap-2 shadow-md p-3 rounded-lg w-[250px]">
+                    <p className="font-bold text-lg">Business Description</p>
+                    <p>{user.businessDetails.description}</p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex flex-col items-center gap-2 shadow-md p-3 rounded-lg w-[250px]">
+                    <p className="font-bold text-lg">Business Description</p>
+                    <p>{user.businessDetails.description}</p>
+                  </div>
+                  <div className="flex flex-col items-center gap-2 shadow-md p-3 rounded-lg w-[250px]">
+                    <p className="font-bold text-lg">Target Audience</p>
+                    <div className="flex flex-wrap gap-5">
+                      {user.businessDetails.targetAudience.map((audience) => (
+                        <p className="bg-gray-500 text-white p-2 rounded-lg text-sm">
+                          {audience}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+            <div className="bg-[rgba(255,255,255,0.5)] shadow-lg p-8 rounded-xl flex flex-col gap-6 justify-center items-center w-[32%]">
+              {/* <p className="text-xl font-bold">Business Details</p> */}
+              <>
+                <div className="flex flex-col items-center gap-2 shadow-md p-3 rounded-lg w-[250px]">
+                  <p className="font-bold text-lg">Platforms</p>
+                  <div className="flex items-center gap-5">
+                    {user.facebookPage ||
+                    user.instagramPage ||
+                    user.youtubeChannel ? (
+                      <>
+                        {user.facebookPage && <img src={FacebookIcon} />}
+                        {user.instagramPage && <img src={InstagramIcon} />}
+                        {user.youtubeChannel && <img src={YoutubeIcon} />}
+                      </>
+                    ) : (
+                      <p className="text-sm text-gray-500">No Platforms</p>
+                    )}
+                  </div>
+                </div>
+                <div className="flex flex-col items-center gap-2 shadow-md p-3 rounded-lg w-[250px]">
+                  {user.userType == "startup" ? (
+                    <>
+                      <p className="font-bold text-lg">Total Workplaces</p>
+                      <p>{user.workplaces.length}</p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="font-bold text-lg">Total Jobs</p>
+                      <p>{user.jobs.length}</p>
+                    </>
+                  )}
+                </div>
+                <div className="flex flex-col items-center gap-2 shadow-md p-3 rounded-lg w-[250px]">
+                  <p className="font-bold text-lg">Total Earnings</p>
+                  <p>$0</p>
+                </div>
+              </>
+            </div>
+          </div>
+        </>
       ) : (
         <p>User not found</p>
       )}

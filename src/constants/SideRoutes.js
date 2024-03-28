@@ -16,15 +16,15 @@ export default [
     link: "/categories",
   },
   {
-    name: "Settings",
-    link: "/settings",
-  },
-  {
     name: "Jobs",
     link: "/jobs",
   },
   {
     name: "Promotions",
     link: "/promotions",
+  },
+  {
+    name: "Settings",
+    link: "/settings",
   },
 ];
