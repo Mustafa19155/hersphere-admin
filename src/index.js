@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/login";
 import AuthProvider from "./contexts/userContext";
 import RequireAuth from "./routes/RequireAuth";
+import CategoryProvider from "./contexts/categoryContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -15,17 +16,19 @@ root.render(
 
   <BrowserRouter>
     <AuthProvider>
-      <Routes>
-        <Route
-          path="/*"
-          element={
-            <RequireAuth redirectTo={"/login"}>
-              <App />
-            </RequireAuth>
-          }
-        ></Route>
-        <Route path="/login" element={<Login />} />
-      </Routes>
+      <CategoryProvider>
+        <Routes>
+          <Route
+            path="/*"
+            element={
+              <RequireAuth redirectTo={"/login"}>
+                <App />
+              </RequireAuth>
+            }
+          ></Route>
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </CategoryProvider>
     </AuthProvider>
   </BrowserRouter>
 

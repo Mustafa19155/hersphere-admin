@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { blockUser, getUser, unblockUser } from "../api/users";
 import { useParams } from "react-router-dom";
 import FacebookIcon from "../assets/icons/facebook.svg";
 import InstagramIcon from "../assets/icons/instagram.svg";
 import YoutubeIcon from "../assets/icons/youtube.svg";
-import capitalizeFirst from "../utils/CapitalizeFirst";
-import Workplaces from "../components/User/Workplaces";
-import Jobs from "../components/User/Jobs";
-import Promotions from "../components/User/Promotions";
+import { CategoryContext } from "../contexts/categoryContext";
 
 const User = () => {
   const params = useParams();
   const [loading, setloading] = useState(false);
   const [user, setuser] = useState(null);
   const [apiCalled, setapiCalled] = useState(false);
+
+  const { categories } = useContext(CategoryContext);
 
   const handleBlock = () => {
     setapiCalled(true);
@@ -106,7 +105,14 @@ const User = () => {
                   </div>
                   <div className="flex flex-col items-center gap-2 shadow-md p-3 rounded-lg w-[250px]">
                     <p className="font-bold text-lg">Business Category</p>
-                    <p>{user.businessDetails.category}</p>
+                    <p>
+                      {
+                        categories.find(
+                          (category) =>
+                            category._id == user.businessDetails.category
+                        )?.name
+                      }
+                    </p>
                   </div>
                   <div className="flex flex-col items-center gap-2 shadow-md p-3 rounded-lg w-[250px]">
                     <p className="font-bold text-lg">Business Description</p>
@@ -124,7 +130,11 @@ const User = () => {
                     <div className="flex flex-wrap gap-5">
                       {user.businessDetails.targetAudience.map((audience) => (
                         <p className="bg-gray-500 text-white p-2 rounded-lg text-sm">
-                          {audience}
+                          {
+                            categories.find(
+                              (category) => category._id == audience
+                            )?.name
+                          }
                         </p>
                       ))}
                     </div>
@@ -165,8 +175,8 @@ const User = () => {
                   )}
                 </div>
                 <div className="flex flex-col items-center gap-2 shadow-md p-3 rounded-lg w-[250px]">
-                  <p className="font-bold text-lg">Total Earnings</p>
-                  <p>$0</p>
+                  <p className="font-bold text-lg">User Balance</p>
+                  <p>${user.balance}</p>
                 </div>
               </>
             </div>

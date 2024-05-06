@@ -44,7 +44,9 @@ function HighestSuccessTable({ data }) {
                   />
                 </td>
                 <td class="px-6 py-4">{user.influencer.username}</td>
-                <td class="px-6 py-4">{user.successScore}%</td>
+                <td class="px-6 py-4">
+                  {(user.successScore * 100).toFixed(2)}%
+                </td>
                 <td class="px-6 py-4 flex items-center gap-5">
                   {user.influencer.facebookPage && (
                     <img src={FacebookIcon} alt="" class="w-5 h-5" />

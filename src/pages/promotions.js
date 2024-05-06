@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { getPromotions } from "../api/main";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import FacebookIcon from "../assets/icons/facebook.svg";
 import InstagramIcon from "../assets/icons/instagram.svg";
 import YoutubeIcon from "../assets/icons/youtube.svg";
+import { CategoryContext } from "../contexts/categoryContext";
 
 const Promotions = () => {
   const navigate = useNavigate();
 
   const [loading, setloading] = useState(false);
   const [promotions, setpromotions] = useState([]);
+
+  const { categories } = useContext(CategoryContext);
 
   const handleGetPromotions = () => {
     setloading(true);
@@ -48,7 +51,12 @@ const Promotions = () => {
               />
               <div className="flex flex-col gap-1">
                 <p className="font-bold">{job.userID?.username}</p>
-                <p className="font-medium">{job.category}</p>
+                <p className="font-medium">
+                  {
+                    categories.find((category) => category._id == job.category)
+                      ?.name
+                  }
+                </p>
               </div>
             </div>
             <div className="h-[50px]">

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { getJobs } from "../api/main";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import { CategoryContext } from "../contexts/categoryContext";
 
 const Jobs = () => {
   const navigate = useNavigate();
@@ -9,15 +10,14 @@ const Jobs = () => {
   const [loading, setloading] = useState(false);
   const [jobs, setjobs] = useState([]);
 
+  const { categories } = useContext(CategoryContext);
+
   const handleGetJobs = () => {
     getJobs()
       .then((res) => {
-        console.log(res);
         setjobs(res);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
 
   useEffect(() => {
@@ -42,7 +42,13 @@ const Jobs = () => {
               />
               <div className="flex flex-col gap-1">
                 <p className="font-bold">{job.title}</p>
-                <p className="font-medium">{job.workplaceCategoryID}</p>
+                <p className="font-medium">
+                  {
+                    categories.find(
+                      (category) => category._id == job.workplaceCategoryID
+                    )?.name
+                  }
+                </p>
               </div>
             </div>
             <div className="h-[50px]">
