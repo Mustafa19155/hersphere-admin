@@ -6,6 +6,7 @@ import EyeIcon from "../assets/images/eye-icon.svg";
 import { AuthContext } from "../contexts/userContext";
 import { useNavigate } from "react-router-dom";
 import GreenButton from "../components/Buttons/GreenButton";
+import { login } from "../api/auth";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,15 +17,25 @@ const Login = () => {
   const [apiCalled, setapiCalled] = useState(false);
   const [err, setErr] = useState(false);
 
+  const { user, setuser } = useContext(AuthContext);
+
   const handleLogin = () => {
     if (email && password) {
-      setapiCalled(true);
-      navigate("/");
+      login(email, password)
+        .then((res) => {
+          setuser({
+            email,
+          });
+          navigate("/");
+        })
+        .catch((err) => {
+          setErr(true);
+        });
     }
   };
 
   return (
-    <div className="h-full min-h-screen flex flex-col justify-center items-center bg-blue">
+    <div className="h-full flex flex-col justify-center items-center bg-blue">
       <div className="mx-auto rounded-xl w-[98%] sm:w-[80%] lg:w-[50%] p-16 flex flex-col justify-center items-center gap-5">
         <img src={Logo} className="w-[150px]" />
         <div className="flex flex-col gap-1 items-center">
@@ -32,7 +43,7 @@ const Login = () => {
           <p className="text-sm">Login to app</p>
         </div>
         {err && (
-          <p className="text-red-600 font-bold text-sm">INVALID CREDENTIALS</p>
+          <p className="text-red font-bold text-sm">INVALID CREDENTIALS</p>
         )}
         <div className="flex flex-col gap-5">
           <div className="bg-transparent border text-xl p-2 rounded-lg flex items-center gap-2">

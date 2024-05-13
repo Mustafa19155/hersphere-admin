@@ -1,44 +1,44 @@
 import React from "react";
 import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
-const data = [
-  {
-    name: "22 April",
-    users: 4000,
-  },
-  {
-    name: "22 April",
-    users: 3000,
-  },
-  {
-    name: "22 April",
-    users: 2000,
-  },
-  {
-    name: "22 April",
-    users: 2780,
-  },
-  {
-    name: "22 April",
-    users: 1890,
-  },
-  {
-    name: "22 April",
-    users: 2390,
-  },
-  {
-    name: "22 April",
-    users: 3490,
-  },
-];
+// const data = [
+//   {
+//     name: "28 April",
+//     users: 4,
+//   },
+//   {
+//     name: "29 April",
+//     users: 3,
+//   },
+//   {
+//     name: "30 April",
+//     users: 4,
+//   },
+//   {
+//     name: "01 April",
+//     users: 0,
+//   },
+//   {
+//     name: "02 April",
+//     users: 2,
+//   },
+//   {
+//     name: "03 April",
+//     users: 1,
+//   },
+//   {
+//     name: "04 April",
+//     users: 1,
+//   },
+// ];
 
-const UsersJoinedChart = () => {
+const UsersJoinedChart = ({ data }) => {
   return (
     // <ResponsiveContainer width="100%" height="100%">
     <BarChart width={550} height={350} data={data}>
-      <Bar dataKey="users" fill="#13B887" barSize={15} />
+      <Bar dataKey="count" fill="#13B887" barSize={15} />
       <XAxis
-        dataKey="name"
+        dataKey="date"
         tickLine={false}
         tickMargin={10}
         color="black"

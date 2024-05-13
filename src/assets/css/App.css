@@ -1,3 +1,59 @@
 .recharts-wrapper svg {
   overflow: visible;
 }
+
+.ranking-game {
+  /* Style the game container */
+}
+
+.ranking-game ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ranking-game li {
+  margin-bottom: 10px;
+}
+
+.ranking-game li.selected button {
+  background-color: lightblue;
+}
+
+.ranking-game button {
+  padding: 10px 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.ranking {
+  /* Style the ranking section */
+}
+
+.ranking ul {
+  padding: 0;
+  margin: 0;
+}
+
+.ranking li {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ranking li.draggable {
+  cursor: grab;
+}
+
+.ranking li.draggable:active {
+  cursor: grabbing;
+}
+
+.ranking .drag-handle {
+  font-size: 1.2rem;
+  cursor: grab;
+}
+
+/* Add drag and drop functionality (optional): Consider using a library like react-dnd */

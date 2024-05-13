@@ -86,7 +86,7 @@ function Users() {
                 </td>
                 <td class="px-6 py-4">
                   <button
-                    className="bg-green text-white p-2 rounded-lg whitespace-nowrap"
+                    className="bg-green text-white py-2 px-5 rounded-lg whitespace-nowrap"
                     onClick={() => {
                       navigate(`/users/${user._id}`);
                     }}

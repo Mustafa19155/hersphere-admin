@@ -9,7 +9,7 @@ function HighestSuccessTable({ data }) {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-white shadow-lg p-5 flex flex-col mt-10 gap-5">
+    <div className="bg-white shadow-lg p-5 flex flex-col mt-10 gap-5 rounded-xl">
       <p className="text-xl font-bold">Users with highest success score</p>
       <div class="relative overflow-x-auto">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -25,7 +25,7 @@ function HighestSuccessTable({ data }) {
               <th scope="col" class="px-6 py-3">
                 Platforms
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" class="px-12 py-3">
                 Actions
               </th>
             </tr>
@@ -44,7 +44,7 @@ function HighestSuccessTable({ data }) {
                   />
                 </td>
                 <td class="px-6 py-4">{user.influencer.username}</td>
-                <td class="px-6 py-4">
+                <td class="px-12 py-4">
                   {(user.successScore * 100).toFixed(2)}%
                 </td>
                 <td class="px-6 py-4 flex items-center gap-5">
@@ -60,7 +60,7 @@ function HighestSuccessTable({ data }) {
                 </td>
                 <td class="px-6 py-4">
                   <button
-                    className="bg-green text-white p-2 rounded-lg whitespace-nowrap"
+                    className="bg-green text-white py-2 px-5 rounded-lg whitespace-nowrap"
                     onClick={() => {
                       navigate(`/users/${user.influencer._id}`);
                     }}

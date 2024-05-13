@@ -13,6 +13,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ["Manrope", ...defaultTheme.fontFamily.sans],
+        open: ["Open Sans", ...defaultTheme.fontFamily.sans],
       },
       colors: {
         // blue: "#001F3D",

@@ -59,7 +59,7 @@ const Job = () => {
               <div className="p-3 border rounded-lg flex flex-col gap-3 shadow-md bg-[rgba(255,255,255,0.5)]">
                 <img
                   src={job.workplaceID?.image}
-                  className="h-[60px] w-[60px] rounded-full"
+                  className="h-[60px] w-[60px] rounded-full object-cover"
                 />
                 <p className="text-2xl font-bold">{job.title}</p>
                 <p className="text-gray-500">{job.workplaceID?.description}</p>
@@ -96,7 +96,7 @@ const Job = () => {
                   <div className="flex items-center gap-3">
                     <img
                       src={job.userID?.profileImage}
-                      className="w-[50px] h-[50px] rounded-full"
+                      className="w-[50px] h-[50px] rounded-full object-cover"
                     />
                     <div className="flex flex-col gap-1">
                       <p className="text-sm font-bold">
@@ -124,7 +124,7 @@ const Job = () => {
                     <div className="flex items-center gap-3">
                       <img
                         src={job.employee.userID?.profileImage}
-                        className="w-[50px] h-[50px] rounded-full"
+                        className="w-[50px] h-[50px] rounded-full object-cover"
                       />
                       <div className="flex flex-col gap-1">
                         <p className="text-sm font-bold">

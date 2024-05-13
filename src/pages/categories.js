@@ -87,6 +87,24 @@ function Categories() {
                 <td class="px-6 py-4">{category.name}</td>
                 <td class="px-6 py-4 flex items-center gap-5">
                   <button
+                    class="ml-3 bg-green text-white py-2 px-12 rounded-lg"
+                    onClick={() => {
+                      setactiveCategory(category);
+                      setshowEditModal(true);
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    class="ml-3 bg-red text-white py-2 px-10 rounded-lg"
+                    onClick={() => {
+                      setactiveCategory(category);
+                      setshowDeleteModal(true);
+                    }}
+                  >
+                    Delete
+                  </button>
+                  {/* <button
                     class="text-blue-500"
                     onClick={() => {
                       setactiveCategory(category);
@@ -103,7 +121,7 @@ function Categories() {
                     }}
                   >
                     Delete
-                  </button>
+                  </button> */}
                 </td>
               </tr>
             ))}

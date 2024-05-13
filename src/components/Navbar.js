@@ -5,7 +5,7 @@ import ProfileIcon from "../assets/images/profileIcon.svg";
 
 const Navbar = () => {
   return (
-    <div className="flex justify-between items-center mb-8">
+    <div className="flex justify-between items-center mb-8 mt-20">
       <div>
         <p className="text-3xl font-bold">WELCOME ADMIN !</p>
         <p className="font-bold mt-1">

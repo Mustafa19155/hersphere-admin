@@ -10,6 +10,7 @@ import UsersJoinedChart from "../components/dashboard/UsersJoinedChart";
 import HighestSuccessTable from "../components/dashboard/HighestSuccessTable";
 import { getUsersWithHighestSuccessScore } from "../api/users";
 import { getDashboardData } from "../api/main";
+import moment from "moment";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -93,13 +94,21 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="mt-8 flex items-stretch gap-10">
-              <div className="bg-white shadow-lg p-5 w-[60%] flex flex-col justify-between items-center">
-                <p className="text-lg font-bold">Users joined last 7 days</p>
-                <UsersJoinedChart />
-                {console.log(data)}
+              <div className="bg-white shadow-lg p-5 w-[60%] flex flex-col justify-between items-center rounded-xl">
+                <p className="text-lg font-bold font-open">
+                  Users joined last 7 days
+                </p>
+                <UsersJoinedChart
+                  data={data.last7DaysUsers.map((data) => {
+                    return {
+                      ...data,
+                      date: moment(data.date).format("DD MMM"),
+                    };
+                  })}
+                />
               </div>
-              <div className="bg-white shadow-lg p-5 w-[60%] flex flex-col justify-between items-center">
-                <p className="text-lg font-bold">
+              <div className="bg-white shadow-lg p-5 w-[60%] flex flex-col justify-between items-center rounded-xl">
+                <p className="text-lg font-bold font-open">
                   Most Used Promotion Platforms
                 </p>
                 <PromotionPlatformsChart data={data.posts} />

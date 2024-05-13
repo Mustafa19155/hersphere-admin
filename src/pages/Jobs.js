@@ -52,11 +52,11 @@ const Jobs = () => {
               </div>
             </div>
             <div className="h-[50px]">
-              <p className="truncate line-clamp-2">{job.description}</p>
+              <p className="line-clamp-2">{job.description}</p>
             </div>
             <div className="flex justify-between">
               <p className="text-sm font-semibold">
-                Posted{moment(job.createdAt).fromNow()}
+                Posted {moment(job.createdAt).fromNow()}
               </p>
               <p
                 className={`text-sm font-semibold ${

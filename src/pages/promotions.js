@@ -6,6 +6,7 @@ import FacebookIcon from "../assets/icons/facebook.svg";
 import InstagramIcon from "../assets/icons/instagram.svg";
 import YoutubeIcon from "../assets/icons/youtube.svg";
 import { CategoryContext } from "../contexts/categoryContext";
+import capitalizeFirst from "../utils/CapitalizeFirst";
 
 const Promotions = () => {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ const Promotions = () => {
               </div>
             </div>
             <div className="h-[50px]">
-              <p className="truncate line-clamp-2">{job.description}</p>
+              <p className="line-clamp-2">{job.description}</p>
             </div>
             <div className="flex justify-between">
               <p
@@ -74,7 +75,7 @@ const Promotions = () => {
                     : "gray-500"
                 }`}
               >
-                {job.status}
+                {capitalizeFirst(job.status)}
               </p>
               <div className="flex items-center gap-2">
                 {job.platforms.includes("facebook") && (

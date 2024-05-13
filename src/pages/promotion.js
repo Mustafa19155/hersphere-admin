@@ -5,7 +5,7 @@ import FacebookIcon from "../assets/icons/facebook.svg";
 import InstagramIcon from "../assets/icons/instagram.svg";
 import YoutubeIcon from "../assets/icons/youtube.svg";
 import moment from "moment";
-import StarIcon from "../assets/icons/star.svg";
+import capitalizeFirst from "../utils/CapitalizeFirst";
 
 const Promotion = () => {
   const params = useParams();
@@ -116,7 +116,7 @@ const Promotion = () => {
                           : "gray-500"
                       }`}
                     >
-                      {promotion.status}
+                      {capitalizeFirst(promotion.status)}
                     </p>
                   </div>
                   <div className="flex flex-col gap-1">
@@ -187,7 +187,7 @@ const Promotion = () => {
                   <div className="flex items-center gap-3">
                     <img
                       src={promotion.userID?.profileImage}
-                      className="h-[60px] w-[60px] rounded-full"
+                      className="h-[60px] w-[60px] rounded-full object-cover"
                     />
                     <div className="flex flex-col gap-1">
                       <p className="text-sm font-bold">
@@ -214,7 +214,7 @@ const Promotion = () => {
                   <div className="flex items-center gap-3">
                     <img
                       src={promotion.influencerID?.profileImage}
-                      className="h-[60px] w-[60px] rounded-full"
+                      className="h-[60px] w-[60px] rounded-full object-cover"
                     />
                     <div className="flex flex-col gap-1">
                       <p className="text-sm font-bold">
